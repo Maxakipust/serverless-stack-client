@@ -36,7 +36,7 @@ export default function Home() {
 
     function renderNotesList(notes){
         return [{}].concat(notes).map((note, i) =>{
-            note.content = note.content?note.content:'No Content';
+            note.content = note.content?note.content:'';
             return  i !== 0 ? (
                 <LinkContainer key={note.noteId} to={`/notes/${note.noteId}`}>
                     <ListGroupItem header={note.content.trim().split("\n")[0]}>
