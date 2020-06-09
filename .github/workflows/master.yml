@@ -26,9 +26,6 @@ jobs:
     - name: Production Build
       run: |
         npm run buildProd
-    - name: Unit Tests
-      run: |
-        npm test
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -38,7 +35,6 @@ jobs:
     - name: Deploy to S3
       run: |
         aws s3 sync --acl public-read --delete build/ s3://${{secrets.AWS_S3_BUCKET_PROD}}
-    - name: deploy lambda
     - name: invalidate
       run: |
         aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID_PROD }} --paths "/*"
