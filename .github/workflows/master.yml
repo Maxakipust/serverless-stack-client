@@ -25,16 +25,16 @@ jobs:
         npm ci
     - name: Production Build
       run: |
-        npm run buildProd
+        npm run-script buildProd
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
-    - name: Deploy to S3
+    - name: Deploy
       run: |
-        aws s3 sync --acl public-read --delete build/ s3://${{secrets.AWS_S3_BUCKET_PROD}}
-    - name: invalidate
-      run: |
-        aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID_PROD }} --paths "/*"
+        npm run-script deployProd
+    # - name: invalidate
+    #   run: |
+    #     aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID_DEV }} --paths "/*"

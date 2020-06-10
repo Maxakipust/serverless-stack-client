@@ -1,0 +1,69 @@
+service: notes-app-client
+
+package:
+  individually: true
+
+plugins:
+  - serverless-s3-sync
+  - serverless-bundle
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+custom:
+  siteName: maxkipust.com
+  stage: ${opt:stage, self:provider.stage}
+  aliasHostedZoneId: Z3AQBSTGFYJSTF    # us-east-1
+  aliasDNSName: s3-website-us-east-1.amazonaws.com
+  bucketName: ${self:custom.stage}-front-end
+  s3Sync:
+    - bucketName: ${self:custom.bucketName}
+      localDir: build
+
+resources:
+  Resources:
+    FrontEndBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicRead
+        BucketName: ${self:custom.bucketName}
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: index.html
+
+    StaticSiteS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: FrontEndBucket
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+              - s3:GetObject
+              Resource:
+                Fn::Join: [
+                  "", [
+                    "arn:aws:s3:::",
+                    {
+                      "Ref": "FrontEndBucket"
+                    },
+                    "/*"
+                  ]
+                ]
+
+  Outputs:
+    StaticSiteS3BucketName:
+      Value:
+        'Ref': FrontEndBucket
+    StaticSiteS3BucketDomainName:
+      Value:
+        Fn::GetAtt:
+          - FrontEndBucket
+          - DomainName
