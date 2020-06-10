@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "serverless-s3-sync": "^1.14.3"
+    "serverless-s3-sync": "^1.14.3",
+    "serverless": "^1.72.0"
   }
 }
