@@ -80,17 +80,10 @@ export default function Home() {
     function renderNotes(){
         return (
             <div className="notes">
-                <Card>
-                    <Card.header>Your Notes</Card.header>
-                    <Card.body>
-                        <Card.text>
-                            {!isLoading && count}
-                        </Card.text>
-                        <ListGroup>
-                            {!isLoading && renderNotesList(notes)}
-                        </ListGroup>
-                    </Card.body>
-                </Card>
+                <PageHeader>Your Notes: {count}</PageHeader>
+                <ListGroup>
+                    {!isLoading && renderNotesList(notes)}
+                </ListGroup>
             </div>
         )
     }
