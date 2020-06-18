@@ -42,7 +42,7 @@ function App() {
             <Navbar fluid collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to="/">Scratch</Link>
+                        <Link to="/">Scratch Test</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
