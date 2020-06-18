@@ -6,7 +6,7 @@ const dev = {
     },
     apiGateway:{
         REGION: 'us-east-1',
-        URL: 'https://yz8uxm4ntc.execute-api.us-east-1.amazonaws.com/dev',
+        URL: 'https://dev-api.maxkipust.com',
     },
     cognito:{
         REGION: 'us-east-1',
@@ -24,7 +24,7 @@ const prod = {
     },
     apiGateway:{
         REGION: 'us-east-1',
-        URL: 'https://p2xybpklfb.execute-api.us-east-1.amazonaws.com/prod',
+        URL: 'https://prod-api.maxkipust.com',
     },
     cognito:{
         REGION: 'us-east-1',

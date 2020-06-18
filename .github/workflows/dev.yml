@@ -31,6 +31,6 @@ jobs:
     - name: Deploy
       run: |
         npm run-script deployDev
-    # - name: invalidate
-    #   run: |
-    #     aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID_DEV }} --paths "/*"
+    - name: invalidate
+      run: |
+        aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID_DEV }} --paths "/*"

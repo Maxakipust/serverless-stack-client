@@ -57,6 +57,37 @@ resources:
                     "/*"
                   ]
                 ]
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Comment: ${self:custom.stage}
+          DefaultRootObject: "index.html"
+          Aliases: 
+            - ${self:custom.stage}.maxkipust.com
+          ViewerCertificate:
+            AcmCertificateArn: arn:aws:acm:us-east-1:003928323920:certificate/dbc8a6fa-f455-4f01-9cc5-bf3fa9486968
+            MinimumProtocolVersion: TLSv1.2_2018
+            SslSupportMethod: sni-only
+          DefaultCacheBehavior:
+            TargetOriginId: ${self:custom.stage}-origin
+            ViewerProtocolPolicy: 'redirect-to-https'
+            DefaultTTL: 30
+            ForwardedValues:
+              QueryString: false
+          Enabled: true
+          Origins:
+            - Id: ${self:custom.stage}-origin
+              DomainName:
+                Fn::Join:
+                  - ""
+                  - - ""
+                    - Ref: FrontEndBucket
+                    - ".s3-website-us-east-1.amazonaws.com"
+              CustomOriginConfig:
+                HTTPPort: 80
+                HTTPSPort: 443
+                OriginProtocolPolicy: http-only
 
   Outputs:
     StaticSiteS3BucketName:
