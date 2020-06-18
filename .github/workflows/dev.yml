@@ -1,6 +1,10 @@
 name: Deploy Branch as Dev
 
-on: push
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
 
 jobs:
   build:
