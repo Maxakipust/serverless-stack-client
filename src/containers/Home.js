@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 
 export default function Home() {
     const [notes, setNotes] = useState([]);
+    const [count, setCount] = useState(null);
     const { isAuthenticated } = useAppContext();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -19,8 +20,9 @@ export default function Home() {
             }
 
             try{
-                const notes = await loadNotes();
-                setNotes(notes);
+                const response = await loadNotes();
+                setCount(response.count);
+                setNotes(response.items);
             }catch (e) {
                 onError(e);
             }
@@ -78,10 +80,17 @@ export default function Home() {
     function renderNotes(){
         return (
             <div className="notes">
-                <PageHeader>Your Notes</PageHeader>
-                <ListGroup>
-                    {!isLoading && renderNotesList(notes)}
-                </ListGroup>
+                <Card>
+                    <Card.header>Your Notes</Card.header>
+                    <Card.body>
+                        <Card.text>
+                            {!isLoading && count}
+                        </Card.text>
+                        <ListGroup>
+                            {!isLoading && renderNotesList(notes)}
+                        </ListGroup>
+                    </Card.body>
+                </Card>
             </div>
         )
     }
